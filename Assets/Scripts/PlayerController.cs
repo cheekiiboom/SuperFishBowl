@@ -87,10 +87,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (OnGround())
+        /*if (OnGround())
             Debug.Log("Grounded");
         else
-            Debug.Log("Airborne");
+            Debug.Log("Airborne");*/
     }
 
     public bool OnGround()
