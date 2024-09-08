@@ -811,7 +811,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 321
   groundCheckRadius: 0.45
-  maxSpeed: 10
+  maxSpeed: 7.6
   moveForce: 15
   jumpForce: 7
   canJump: 1

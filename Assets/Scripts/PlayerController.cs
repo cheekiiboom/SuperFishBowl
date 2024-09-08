@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     private LineRenderer lineRenderer;
     public float lineLengthMultiplier = 1.0f;
 
+    public bool inputEnabled { get; set; } = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +54,12 @@ public class PlayerController : MonoBehaviour
         lineRenderer.SetPosition(1, transform.position + velocityDirection * velocityMagnitude * lineLengthMultiplier);
 
         // Player should jump
-        if (Input.GetButton("Jump") && OnGround())
+        Jump();
+    }
+
+    public void Jump()
+    {
+        if (Input.GetButton("Jump") && OnGround() && inputEnabled)
         {
             rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce, rigidBody.velocity.z); // Add upward force
         }
@@ -62,7 +69,8 @@ public class PlayerController : MonoBehaviour
     public void Move(float verticalTilt, float horizontalTilt, Vector3 right)
     {
         // Only apply movement when the player is grounded
-        if (OnGround())
+        
+        if (OnGround() && inputEnabled)
         {
             CalculateFloorNormal();
 
@@ -86,11 +94,6 @@ public class PlayerController : MonoBehaviour
                 rigidBody.AddForce(forceVector);
             }
         }
-
-        /*if (OnGround())
-            Debug.Log("Grounded");
-        else
-            Debug.Log("Airborne");*/
     }
 
     public bool OnGround()
@@ -107,4 +110,5 @@ public class PlayerController : MonoBehaviour
             floorNormal = hit.normal;
         }
     }
+
 }
