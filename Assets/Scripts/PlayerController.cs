@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
     public bool OnGround()
     {
-        return Physics.CheckSphere(transform.position, groundCheckRadius, whatIsGround);
+        return Physics.CheckSphere(transform.position + Vector3.down * 0.1f, groundCheckRadius, whatIsGround);
     }
 
     private void CalculateFloorNormal()
