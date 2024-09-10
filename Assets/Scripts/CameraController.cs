@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -16,6 +17,9 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     private float rotateSpeed;
+
+    [SerializeField]
+    private float smoothSpeed = 5f;
 
     private float distanceFromPlayer;
     public float minDistance = 1f;  // Minimum distance the camera can get to the player
@@ -65,7 +69,9 @@ public class CameraController : MonoBehaviour
 
         // Set the camera position relative to the player, clamping it to obstacles
         Vector3 offset = new Vector3(0f, 0f, -distanceFromPlayer);
-        transform.position = player.transform.position + rotation * offset;
+        Vector3 targetPosition = player.transform.position + rotation * offset;
+
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smoothSpeed);
 
         // Look at the player
         transform.LookAt(player.transform);

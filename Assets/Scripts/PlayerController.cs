@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private LineRenderer lineRenderer;
     public float lineLengthMultiplier = 1.0f;
+    public bool lineRendererEnabled = true;
 
     public bool inputEnabled { get; set; } = false;
 
@@ -44,6 +45,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        UpdateLineRenderer();
+
+        // Player should jump
+        Jump();
+    }
+
+    public void UpdateLineRenderer()
+    {
+        if (!lineRendererEnabled) 
+            { return; }
+
         lineRenderer.SetPosition(0, transform.position);
 
         // Set the position of the line's end (in the direction of the velocity)
@@ -52,9 +64,6 @@ public class PlayerController : MonoBehaviour
 
         // Set the end position of the line based on the velocity and multiplier
         lineRenderer.SetPosition(1, transform.position + velocityDirection * velocityMagnitude * lineLengthMultiplier);
-
-        // Player should jump
-        Jump();
     }
 
     public void Jump()
