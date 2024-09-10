@@ -9,6 +9,9 @@ public class GameController : MonoBehaviour
     private PlayerController playerController;
     public Rigidbody shelfRigidbody;
 
+    [SerializeField]
+    private FishBowlWater FishBowlWater;
+
     private void Start()
     {
         
