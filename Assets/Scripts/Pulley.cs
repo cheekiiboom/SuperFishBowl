@@ -9,11 +9,18 @@ public class Pulley : MonoBehaviour
     private Vector3 previousPositionObject1;
     private Vector3 previousPositionObject2;
 
+    private LineRenderer _lineRenderer;
+
+    [SerializeField]
+    private Transform[] _pivotTransforms;
+
     void Start()
     {
         // Initialize the previous positions
         previousPositionObject1 = object1.transform.position;
         previousPositionObject2 = object2.transform.position;
+
+        _lineRenderer = GetComponent<LineRenderer>();
     }
 
     void Update()
@@ -39,5 +46,10 @@ public class Pulley : MonoBehaviour
         // Update the previous positions
         previousPositionObject1 = object1.transform.position;
         previousPositionObject2 = object2.transform.position;
+
+        _lineRenderer.positionCount = _pivotTransforms.Length;
+
+        for (int i = 0; i < _pivotTransforms.Length; i++)
+            _lineRenderer.SetPosition(i, _pivotTransforms[i].position);
     }
 }
