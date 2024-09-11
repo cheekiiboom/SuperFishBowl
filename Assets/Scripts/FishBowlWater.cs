@@ -54,7 +54,7 @@ public class FishBowlWater : MonoBehaviour
                 StartLeaking();
                 return;
             }
-            float impactStrength = collision.relativeVelocity.magnitude; // Use the strength of the impact
+            float impactStrength = collision.impulse.magnitude * collision.relativeVelocity.magnitude * collision.relativeVelocity.magnitude / 8; // Use the strength of the impact
             DecreaseWater(collisionLeakMultiplier * impactStrength); // Decrease water based on the impact
         }
     }
