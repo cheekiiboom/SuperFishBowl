@@ -9,4 +9,10 @@ public class GoalBoundary : MonoBehaviour
         if(other != null && other.tag == "Player")
             Destroy(other.gameObject);
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other != null && other.gameObject.tag == "Player")
+            Destroy(other.gameObject);
+    }
 }
