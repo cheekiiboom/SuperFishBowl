@@ -6,6 +6,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private PlayerController player;
+    private Renderer playerRenderer; // Reference to the player's renderer
+    private Renderer[] childRenderers; // Reference to the children's renderers
 
     private float horizontalTilt;
     private float verticalTilt;
@@ -30,10 +32,15 @@ public class CameraController : MonoBehaviour
     private float rotationX;
     private float rotationY;
 
+    private float initialPlayerOpacity = 0.3f;  // Initial player opacity
+    private float initialChildOpacity = 1f;     // Initial child opacity
+
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerController>();  // Find player
+        playerRenderer = player.GetComponent<Renderer>(); // Get the player's renderer
+        childRenderers = player.GetComponentsInChildren<Renderer>(); // Get the children's renderers
 
         initialXRotation = transform.eulerAngles.x;     // Store initial x rotation
     }
@@ -56,7 +63,7 @@ public class CameraController : MonoBehaviour
         rotationY += mouseX + rightStickX;
 
         // Clamp vertical rotation to avoid flipping
-        rotationX = Mathf.Clamp(rotationX, -89f, 89f);
+        rotationX = Mathf.Clamp(rotationX, -85f, 85f);
 
         // Create a rotation based on the input
         Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0f);
@@ -75,6 +82,9 @@ public class CameraController : MonoBehaviour
 
         // Look at the player
         transform.LookAt(player.transform);
+
+        // Adjust both the player's and children's opacity based on the camera's distance
+        UpdateOpacity(distanceFromPlayer);
 
         // Move the player based on the camera's position
         player.Move(verticalTilt, horizontalTilt, transform.right);
@@ -100,5 +110,33 @@ public class CameraController : MonoBehaviour
         }
 
         return adjustedDistance;
+    }
+
+    // Update the player's and children's opacity based on the distance from the camera
+    void UpdateOpacity(float distance)
+    {
+        // Calculate the opacity based on the camera's distance (closer -> more transparent)
+        float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
+        float opacity = Mathf.Lerp(0f, initialPlayerOpacity, t);
+
+        // Update the player's material opacity
+        SetMaterialOpacity(playerRenderer, opacity);
+
+        // Update all children's opacity as well
+        foreach (Renderer childRenderer in childRenderers)
+        {
+            SetMaterialOpacity(childRenderer, opacity);
+        }
+    }
+
+    // Helper function to set the material opacity
+    void SetMaterialOpacity(Renderer renderer, float opacity)
+    {
+        if (renderer != null && renderer.material.HasProperty("_Color"))
+        {
+            Color color = renderer.material.color;
+            color.a = opacity;
+            renderer.material.color = color;
+        }
     }
 }
