@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Button : MonoBehaviour
 {
+    public GameObject[] Objectives;
+    public GameObject[] ObjectsToEnable;
     public GameObject[] Water; // The object to enable when all buttons are pressed
     public GameObject[] OtherButtons; // The other buttons that need to be pressed
     private Vector3 pressedPositionOffset = new Vector3(0, 0, -0.09f); // How much the button will move down
@@ -11,6 +13,7 @@ public class Button : MonoBehaviour
     private Vector3 initialPosition; // Store the initial position of the button
     private Material originalMaterial; // Store the original material of the button
     private bool isPressed = false; // Track if this button has been pressed
+    private GameObject Player;
 
     private void Start()
     {
@@ -29,6 +32,11 @@ public class Button : MonoBehaviour
     {
         if (other != null && other.tag == "Player" && !isPressed)
         {
+            Player = other.gameObject;
+            ArrowRenderer arrowRenderer = Player.GetComponent<ArrowRenderer>();
+            
+            arrowRenderer.RemoveTargetObject(gameObject);
+
             isPressed = true; // Mark this button as pressed
             PressButton(); // Visually press the button
             CheckAllButtonsPressed(); // Check if all buttons are pressed
@@ -61,8 +69,18 @@ public class Button : MonoBehaviour
             }
         }
 
+        ArrowRenderer arrowRenderer = Player.GetComponent<ArrowRenderer>();
+
         // If all buttons are pressed, re-enable the Water object
         foreach (var water in Water)
+        {
             water.SetActive(true);
+        }
+
+        foreach (var obj in Objectives)
+            arrowRenderer.AddTargetObject(obj);
+
+        foreach (var obj in ObjectsToEnable)
+            obj.SetActive(true);
     }
 }
