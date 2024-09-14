@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6739988961977809453}
   - component: {fileID: 8727618627202244972}
   - component: {fileID: 1472156495259145594}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: key_gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6675d87c378ee4249b3f16df6775bfc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bobSpeed: 5
+  bobHeight: 0.1
+  rotationSpeed: 100
+  riseSpeed: 50
+  fastRotationSpeed: 3000
+  riseHeight: 0.5
+  spinDuration: 1
+  Material: {fileID: 0}
+  Doors: []
+  ObjectsToDestroy: []
+  ObjectsToEnable: []
+  Objectives: []
 --- !u!65 &1472156495259145594
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78,7 +90,7 @@ GameObject:
   - component: {fileID: 4872011781832255097}
   - component: {fileID: 3612092154178523295}
   - component: {fileID: 1447847518154106800}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pPlane3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
