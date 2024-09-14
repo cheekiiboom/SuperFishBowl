@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour
 
     public bool inputEnabled { get; set; } = false;
 
+    private PlayerAudio PlayerAudio;
+    private AudioSource PlayerAudioSource;
+    private AudioSource RollAudioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +46,12 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
 
         lineRenderer = GetComponent<LineRenderer>();
+
+        PlayerAudio = GetComponent<PlayerAudio>();
+        PlayerAudioSource = PlayerAudio.GetAudioSource();
+        RollAudioSource = PlayerAudio.GetRollAudioSource();
+
+        PlayerAudio.PlayRoll();
     }
 
     private void Update()
@@ -49,7 +60,58 @@ public class PlayerController : MonoBehaviour
 
         // Player should jump
         Jump();
+        HandleRollAudio();
     }
+
+    // Change roll sound based on speed and ground check
+    private void HandleRollAudio()
+    {
+        if (!OnGround())
+        {
+            StartCoroutine(FadeRollToZero());
+            /*RollAudioSource.volume = 0f;*/
+            return;
+        }
+
+        float velocityMagnitude = rigidBody.velocity.magnitude; 
+
+        /*if (velocityMagnitude > 1f)
+        {*/
+            // Normalize the velocity to a range suitable for volume and pitch
+            float normalizedVolume = Mathf.Clamp01(velocityMagnitude / 15f); // Assuming max speed is 10
+            float minPitch = 0.8f;
+            float maxPitch = 1.2f;
+
+            // Set the volume and pitch based on the velocity
+            PlayerAudio.SetRollVolumeAndPitch(normalizedVolume, Mathf.Lerp(minPitch, maxPitch, normalizedVolume));
+
+            // Ensure the audio is playing in case it stops
+            if (!RollAudioSource.isPlaying)
+            {
+                PlayerAudio.PlayRoll();
+            }
+        /*}
+        else
+        {
+            StartCoroutine(FadeRollToZero()); // Optionally fade out the audio if the velocity is low
+        }*/
+    }
+
+    private IEnumerator FadeRollToZero(float duration = 0.14f)
+    {
+        float startVolume = RollAudioSource.volume;
+
+        // Gradually reduce the volume to zero over the specified duration
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            RollAudioSource.volume = Mathf.Lerp(startVolume, 0f, t / duration);
+            yield return null; // Wait for the next frame
+        }
+
+        // Ensure the volume is set to zero after fading
+        RollAudioSource.volume = 0f;
+    }
+
 
     public void UpdateLineRenderer()
     {
@@ -68,9 +130,10 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (Input.GetButton("Jump") && OnGround() && inputEnabled)
+        if (Input.GetButton("Jump") && OnGround() && inputEnabled && rigidBody.velocity.y < 1)
         {
             rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce, rigidBody.velocity.z); // Add upward force
+            PlayerAudio.PlaySound("jump", withVariation: true);
         }
     }
 

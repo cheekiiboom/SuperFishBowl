@@ -18,10 +18,14 @@ public class FishBowlWater : MonoBehaviour
 
     private bool isLeaking = false; // Flag to track whether the bowl is leaking
 
+    private PlayerAudio PlayerAudio;
+    private const float BumpSoundThreshold = 0.2f; // Adjust this value as needed
+
     // Start is called before the first frame update
     void Start()
     {
         waterAmount = maxWaterAmount; // Initialize the bowl with max water
+        PlayerAudio = GetComponent<PlayerAudio>();
     }
 
     // Update is called once per frame
@@ -58,6 +62,16 @@ public class FishBowlWater : MonoBehaviour
                 * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y)
                 * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y) / 8; // Use the strength of the impact
             DecreaseWater(collisionLeakMultiplier * impactStrength); // Decrease water based on the impact
+            if (collisionLeakMultiplier * impactStrength > BumpSoundThreshold)
+            {
+                float normalizedVolume = Mathf.Clamp01(collisionLeakMultiplier * impactStrength / 15f); // Assuming max impact is 15
+                float minPitch = 0.8f;
+                float maxPitch = 1.2f;
+
+                // Set the volume and pitch based on the velocity
+                PlayerAudio.SetVolumeAndPitch(normalizedVolume, Mathf.Lerp(minPitch, maxPitch, normalizedVolume));
+                PlayerAudio.PlaySound("bump");
+            }
         }
     }
 
