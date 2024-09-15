@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/StartScreen.unity
+    guid: 5cbd97c50b088d046a86ce4179a7ad79
+  - enabled: 1
     path: Assets/StudioBillion/House Interior/Scenes/House Interior.unity
     guid: 261548a5f5662c441ab881817b638867
+  - enabled: 1
+    path: Assets/Scenes/DeathScreen.unity
+    guid: 53e91bfeabba0c344b07abc7a0c270b7
   m_configObjects: {}
