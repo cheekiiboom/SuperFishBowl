@@ -4001,6 +4001,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023219243}
   m_Mesh: {fileID: 6298153257081408266, guid: 02ad78cca7f19f843b49a2e580791919, type: 3}
+--- !u!1 &1093292176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3004495566633387819, guid: c022eac7be7a0a9459ab90791522b030,
+    type: 3}
+  m_PrefabInstance: {fileID: 1370346648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1119690192
 GameObject:
   m_ObjectHideFlags: 0
@@ -5471,6 +5477,31 @@ PrefabInstance:
     - target: {fileID: 5681975042812309981, guid: c022eac7be7a0a9459ab90791522b030,
         type: 3}
       propertyPath: water
+      value: 
+      objectReference: {fileID: 1832285620}
+    - target: {fileID: 5681975042812309981, guid: c022eac7be7a0a9459ab90791522b030,
+        type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 1981386566}
+    - target: {fileID: 5681975042812309981, guid: c022eac7be7a0a9459ab90791522b030,
+        type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 1370346649}
+    - target: {fileID: 5681975042812309981, guid: c022eac7be7a0a9459ab90791522b030,
+        type: 3}
+      propertyPath: water.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681975042812309981, guid: c022eac7be7a0a9459ab90791522b030,
+        type: 3}
+      propertyPath: water.Array.data[0]
+      value: 
+      objectReference: {fileID: 1093292176}
+    - target: {fileID: 5681975042812309981, guid: c022eac7be7a0a9459ab90791522b030,
+        type: 3}
+      propertyPath: water.Array.data[1]
       value: 
       objectReference: {fileID: 1832285620}
     - target: {fileID: 5720415677558613213, guid: c022eac7be7a0a9459ab90791522b030,

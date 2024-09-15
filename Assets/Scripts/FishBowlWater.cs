@@ -17,7 +17,13 @@ public class FishBowlWater : MonoBehaviour
     private float collisionLeakMultiplier = 5f; // Additional leak multiplier on collisions
 
     [SerializeField]
-    private GameObject water; // Current amount of water in mL
+    private GameObject[] water; // Current amount of water in mL
+    
+    [SerializeField]
+    private MonoBehaviour playerController; // Current amount of water in mL
+    
+    [SerializeField]
+    private CameraController cameraController; // Current amount of water in mL
 
     private bool isLeaking = false; // Flag to track whether the bowl is leaking
 
@@ -72,8 +78,14 @@ public class FishBowlWater : MonoBehaviour
         // Calculate the scale factor based on the current water amount compared to the max amount
         float scaleFactor = Mathf.Clamp(waterAmount / maxWaterAmount, 0.3f, 1f); // Prevent scale from going below 0.1 for visibility
         if (waterAmount == 0.0f)
+        {
             scaleFactor = 0;
-        water.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor); // Uniform scaling
+            playerController.enabled = false;
+            cameraController.enabled = false;
+        }
+
+        foreach (var obj in water)
+            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor); // Uniform scaling
     }
 
     // Method to be called on collision to reduce water faster
