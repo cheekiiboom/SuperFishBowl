@@ -19,7 +19,8 @@ public class FishBowlWater : MonoBehaviour
     private bool isLeaking = false; // Flag to track whether the bowl is leaking
 
     private PlayerAudio PlayerAudio;
-    private const float BumpSoundThreshold = 0.2f; // Adjust this value as needed
+    private const float BumpSoundThreshold = 10f; // Adjust this value as needed
+    private const float GlassSoundThreshold = 120f;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,13 @@ public class FishBowlWater : MonoBehaviour
         {
             // Reduce water by base leak rate per second
             DecreaseWater(baseLeakRate * Time.deltaTime);
+        }
+
+        if (waterAmount <= 0 && isLeaking)
+        {
+            PlayerAudio.PlaySound("glass");
+            isLeaking = false;
+            return;
         }
     }
 
@@ -66,16 +74,25 @@ public class FishBowlWater : MonoBehaviour
                     * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y)
                     * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y) / 8; // Use the strength of the impact
                 DecreaseWater(collisionLeakMultiplier * impactStrength); // Decrease water based on the impact
-                if (collisionLeakMultiplier * impactStrength > BumpSoundThreshold)
+                
+                if (collisionLeakMultiplier * impactStrength > GlassSoundThreshold)
                 {
-                    float normalizedVolume = Mathf.Clamp01(collisionLeakMultiplier * impactStrength / 15f); // Assuming max impact is 15
-                    float minPitch = 0.8f;
-                    float maxPitch = 1.2f;
-
-                    // Set the volume and pitch based on the velocity
-                    PlayerAudio.SetVolumeAndPitch(normalizedVolume, Mathf.Lerp(minPitch, maxPitch, normalizedVolume));
-                    PlayerAudio.PlaySound("bump");
+                    Debug.Log(collisionLeakMultiplier * impactStrength);
+                    PlayerAudio.SetVolumeAndPitch(1f, 1f);
+                    PlayerAudio.PlaySound("glass");
+                    return;
                 }
+
+                if (collisionLeakMultiplier * impactStrength < BumpSoundThreshold) return;
+                Debug.Log(collisionLeakMultiplier * impactStrength);
+
+                float normalizedVolume = Mathf.Clamp01(collisionLeakMultiplier * impactStrength / 15f); // Assuming max impact is 15
+                float minPitch = 0.8f;
+                float maxPitch = 1.2f;
+
+                // Set the volume and pitch based on the velocity
+                PlayerAudio.SetVolumeAndPitch(normalizedVolume, Mathf.Lerp(minPitch, maxPitch, normalizedVolume));
+                PlayerAudio.PlaySound("bump");
             }
         }
     }

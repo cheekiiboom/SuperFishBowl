@@ -41,6 +41,7 @@ public class Button : MonoBehaviour
             isPressed = true; // Mark this button as pressed
             PressButton(); // Visually press the button
             CheckAllButtonsPressed(); // Check if all buttons are pressed
+            GetComponent<GenericAudio>().PlaySound("button");
         }
     }
 

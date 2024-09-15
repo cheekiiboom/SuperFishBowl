@@ -2,33 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAudio : MonoBehaviour
+public class GenericAudio : MonoBehaviour
 {
     public AudioSource AudioSource;
-    public AudioSource RollAudioSource;
     public string BaseAudioClipPath = "Audio/AudioClips/";  // Path to the audio clips folder
 
     // Start is called before the first frame update
     void Start()
     {
         // Ensure the AudioSource component is attached
-        if (AudioSource == null || RollAudioSource == null)
+        if (AudioSource == null)
         {
-            Debug.LogError("Did you forget to set the AudioSource or RollAudioSource in Sphere?");
+            Debug.LogError("Did you forget to set the AudioSource?");
         }
     }
 
     public AudioSource GetAudioSource()
     {
         return AudioSource;
-    }
-
-    public void PlayRoll(string soundName = "roll")
-    {
-        SelectRandomClip(soundName, RollAudioSource);
-        if (!AudioExists(RollAudioSource)) return;
-
-        RollAudioSource.Play();
     }
 
     // Plays a random jump sound
@@ -40,7 +31,7 @@ public class PlayerAudio : MonoBehaviour
         if (withVariation)
             { SelectRandomPitch(); }
 
-        Debug.Log("in play sound \t" + soundName);
+        Debug.Log("in play sound");
         AudioSource.Play();
     }
     
@@ -79,16 +70,5 @@ public class PlayerAudio : MonoBehaviour
     {
         AudioSource.volume = normalizedVolume;
         AudioSource.pitch = pitchVelocity;
-    }
-
-    internal void SetRollVolumeAndPitch(float normalizedVolume, float pitchVelocity)
-    {
-        RollAudioSource.volume = normalizedVolume;
-        RollAudioSource.pitch = pitchVelocity;
-    }
-
-    internal AudioSource GetRollAudioSource()
-    {
-        return RollAudioSource;
     }
 }
