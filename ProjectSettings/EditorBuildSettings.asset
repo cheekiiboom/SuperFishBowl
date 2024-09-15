@@ -11,10 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartScreen.unity
     guid: 5cbd97c50b088d046a86ce4179a7ad79
-  - enabled: 1
+  - enabled: 0
     path: Assets/StudioBillion/House Interior/Scenes/House Interior.unity
     guid: 261548a5f5662c441ab881817b638867
   - enabled: 1
+    path: Assets/Scenes/House Interior - Water Level.unity
+    guid: d17e61f4885dbb445a9c12ab7c3864ac
+  - enabled: 1
     path: Assets/Scenes/DeathScreen.unity
     guid: 53e91bfeabba0c344b07abc7a0c270b7
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 507a759935abca34da32a46a69861303
   m_configObjects: {}

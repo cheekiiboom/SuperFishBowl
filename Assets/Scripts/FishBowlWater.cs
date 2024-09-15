@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FishBowlWater : MonoBehaviour
 {
@@ -82,6 +83,7 @@ public class FishBowlWater : MonoBehaviour
             scaleFactor = 0;
             playerController.enabled = false;
             cameraController.enabled = false;
+            SceneManager.LoadScene(2); // death scene
         }
 
         foreach (var obj in water)
