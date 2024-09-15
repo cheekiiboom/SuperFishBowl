@@ -31,7 +31,8 @@ public class FishBowlWater : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isLeaking && waterAmount > 0)
+        // Only leak if the camera is not panning
+        if (!CameraPanOrTeleportOnTrigger.isCameraPanning && isLeaking && waterAmount > 0)
         {
             // Reduce water by base leak rate per second
             DecreaseWater(baseLeakRate * Time.deltaTime);
@@ -53,24 +54,28 @@ public class FishBowlWater : MonoBehaviour
         // Apply extra water loss when bumping into things
         if (waterAmount > 0 && collision.gameObject.layer != 9)
         {
-            if (!isLeaking)
+            // Only decrease water if the camera is not panning
+            if (!CameraPanOrTeleportOnTrigger.isCameraPanning)
             {
-                StartLeaking();
-                return;
-            }
-            float impactStrength = collision.impulse.magnitude
-                * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y)
-                * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y) / 8; // Use the strength of the impact
-            DecreaseWater(collisionLeakMultiplier * impactStrength); // Decrease water based on the impact
-            if (collisionLeakMultiplier * impactStrength > BumpSoundThreshold)
-            {
-                float normalizedVolume = Mathf.Clamp01(collisionLeakMultiplier * impactStrength / 15f); // Assuming max impact is 15
-                float minPitch = 0.8f;
-                float maxPitch = 1.2f;
+                if (!isLeaking)
+                {
+                    StartLeaking();
+                    return;
+                }
+                float impactStrength = collision.impulse.magnitude
+                    * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y)
+                    * (collision.relativeVelocity.magnitude + collision.relativeVelocity.y) / 8; // Use the strength of the impact
+                DecreaseWater(collisionLeakMultiplier * impactStrength); // Decrease water based on the impact
+                if (collisionLeakMultiplier * impactStrength > BumpSoundThreshold)
+                {
+                    float normalizedVolume = Mathf.Clamp01(collisionLeakMultiplier * impactStrength / 15f); // Assuming max impact is 15
+                    float minPitch = 0.8f;
+                    float maxPitch = 1.2f;
 
-                // Set the volume and pitch based on the velocity
-                PlayerAudio.SetVolumeAndPitch(normalizedVolume, Mathf.Lerp(minPitch, maxPitch, normalizedVolume));
-                PlayerAudio.PlaySound("bump");
+                    // Set the volume and pitch based on the velocity
+                    PlayerAudio.SetVolumeAndPitch(normalizedVolume, Mathf.Lerp(minPitch, maxPitch, normalizedVolume));
+                    PlayerAudio.PlaySound("bump");
+                }
             }
         }
     }

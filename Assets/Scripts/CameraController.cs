@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private PlayerController player;
+    public PlayerController player;
     private Renderer playerRenderer; // Reference to the player's renderer
     private Renderer[] childRenderers; // Reference to the children's renderers
 
