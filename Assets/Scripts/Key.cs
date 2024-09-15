@@ -52,6 +52,7 @@ public class Key : MonoBehaviour
         {
             isCollected = true;
             StartCoroutine(CollectedAnimation());
+            GetComponent<GenericAudio>().PlaySound("key");
         }
     }
 
