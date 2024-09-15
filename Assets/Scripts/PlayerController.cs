@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         PlayerAudioSource = PlayerAudio.GetAudioSource();
         RollAudioSource = PlayerAudio.GetRollAudioSource();
 
-        PlayerAudio.PlayRoll();
+        //PlayerAudio.PlayRoll();
     }
 
     private void Update()

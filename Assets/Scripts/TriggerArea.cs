@@ -7,6 +7,7 @@ public class TriggerArea : MonoBehaviour
     public GameObject[] Objectives;
     public GameObject[] ObjectsToEnable;
     public GameObject[] ObjectsToDestroy;
+    public bool selfDestruct = false;
     private void OnTriggerEnter(Collider other)
     {
         if (other != null && other.tag == "Player")
@@ -27,7 +28,8 @@ public class TriggerArea : MonoBehaviour
             foreach (var obj in ObjectsToDestroy)
                 Destroy(obj);
 
-            Destroy(gameObject);
+            if (selfDestruct)
+                Destroy(gameObject);
         }
     }
 }

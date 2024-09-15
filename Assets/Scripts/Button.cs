@@ -13,6 +13,7 @@ public class Button : MonoBehaviour
     private Vector3 initialPosition; // Store the initial position of the button
     private Material originalMaterial; // Store the original material of the button
     private bool isPressed = false; // Track if this button has been pressed
+    public CameraPanOrTeleportOnTrigger cameraScript;
     private GameObject Player;
 
     private void Start()
@@ -40,6 +41,7 @@ public class Button : MonoBehaviour
             isPressed = true; // Mark this button as pressed
             PressButton(); // Visually press the button
             CheckAllButtonsPressed(); // Check if all buttons are pressed
+            GetComponent<GenericAudio>().PlaySound("button");
         }
     }
 
@@ -82,5 +84,7 @@ public class Button : MonoBehaviour
 
         foreach (var obj in ObjectsToEnable)
             obj.SetActive(true);
+        
+        StartCoroutine(cameraScript.StartCameraMoveAfterDelay());
     }
 }
