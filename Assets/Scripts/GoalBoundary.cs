@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Import the SceneManager
 
 public class GoalBoundary : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null && other.tag == "Player")
+        if (other != null && other.tag == "Player")
         {
             ArrowRenderer arrowRenderer = other.gameObject.GetComponent<ArrowRenderer>();
 
@@ -17,7 +18,8 @@ public class GoalBoundary : MonoBehaviour
                 arrowRenderer.RemoveTargetObject(target);
             }
 
-            Destroy(other.gameObject);
+            // Load scene 3 instead of destroying the player
+            SceneManager.LoadScene(3);
         }
     }
 
@@ -34,7 +36,8 @@ public class GoalBoundary : MonoBehaviour
                 arrowRenderer.RemoveTargetObject(target);
             }
 
-            Destroy(other.gameObject);
+            // Load scene 3 instead of destroying the player
+            SceneManager.LoadScene(3);
         }
     }
 }
