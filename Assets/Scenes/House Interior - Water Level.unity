@@ -7901,7 +7901,7 @@ MonoBehaviour:
   panDelay: 0.95
   freezePanDelay: 0
   panSpeed: 1
-  panCamera: 1
+  panCamera: 0
   freezeGame: 1
 --- !u!1 &1850833574 stripped
 GameObject:
