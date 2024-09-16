@@ -23,11 +23,13 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            playerController.inputEnabled = true;
-            shelfRigidbody.isKinematic = false;
-        }
+        /* if (Input.GetKeyDown(KeyCode.E))
+         {
+             playerController.inputEnabled = true;
+             shelfRigidbody.isKinematic = false;
+         }*/
+        playerController.inputEnabled = true;
+        shelfRigidbody.isKinematic = false;
     }
 
     public void RestartGame()
